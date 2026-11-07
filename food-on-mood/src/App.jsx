@@ -1,15 +1,15 @@
 import { useState } from "react";
 import "./App.css";
 import foodsData from "./foods.json";
-import foodImage from "./assets/vietnamese_do_and_dont.jpg"
-import heroImage from "./assets/hero.png";
+import foodImage from "./assets/vietnamese_do_and_dont.jpg";
 
-
-const images = import.meta.glob('./assets/*.{png,jpg,jpeg,webp,avif}', { eager: true, import: 'default' });
+const images = import.meta.glob("./assets/*.{png,jpg,jpeg,webp,avif}", {
+  eager: true,
+  import: "default",
+});
 
 // Helper function to find the right image based on the slug
 const getFoodImage = (slug) => {
-  // Look for a key ending in `/slug.extension`
   const key = Object.keys(images).find((k) => k.includes(`/${slug}.`));
   return key ? images[key] : null;
 };
@@ -69,6 +69,9 @@ const ICON_PATHS = {
       <path d="M12 7v5l3 2" />
     </>
   ),
+  cloud: <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />,
+  droplet: <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 15.1 5 17 5 15a7 7 0 0 0 7 7Z" />,
+  wind: <path d="M17.7 7.7A2.5 2.5 0 1 1 15 11H3M19.4 17a2.5 2.5 0 1 0-2.4-3H3M12.5 4a2 2 0 1 1-1.8 3H3" />,
 };
 
 function Icon({ name, size = 20 }) {
@@ -101,22 +104,14 @@ const MOODS = [
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
 
-// Dữ liệu mẫu tạm thời (chưa nối backend). Sau này thay bằng fetch("/api/recommend").
-const MOCK_FOODS = [
-  { name: "Beef Phở", image: "/foods/pho.png", note: "with fresh herbs & lime", time: 40, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Roasted Tomato Soup", image: "/foods/tomato-soup.jpg", note: "with herb sourdough", time: 25, difficulty: "Easy", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Citrus Harvest Bowl", image: "/foods/citrus-bowl.jpg", note: "with toasted grains", time: 20, difficulty: "Easy", weather: ["sunny"], mood: ["good"] },
-  { name: "Wild Mushroom Pasta", image: "/foods/mushroom-pasta.jpg", note: "with thyme & pecorino", time: 35, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad"] },
-  { name: "Green Herb Noodles", image: "/foods/herb-noodles.jpg", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
-  { name: "Spiced Coconut Curry", image: "/foods/coconut-curry.jpg", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Charred Peach Salad", image: "/foods/peach-salad.jpg", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
-];
-
 const getMockRecommendations = (weather, mood) =>
-  foodsData.map((f) => ({
-    ...f,
-    score: (f.weather.includes(weather) ? 1 : 0) + (f.mood.includes(mood) ? 1 : 0),
-  }))
+  foodsData
+    .map((f) => ({
+      ...f,
+      score:
+        (f.weather.includes(weather) ? 1 : 0) +
+        (f.mood.includes(mood) ? 1 : 0),
+    }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 4);
 
@@ -130,7 +125,14 @@ function FoodImage({ src }) {
       </div>
     );
   }
-  return <img src={src} alt="" className="card__img" onError={() => setFailed(true)} />;
+  return (
+    <img
+      src={src}
+      alt=""
+      className="card__img"
+      onError={() => setFailed(true)}
+    />
+  );
 }
 
 function ChoiceButton({ option, active, onSelect }) {
@@ -154,9 +156,18 @@ function SkeletonCard({ index }) {
     <div aria-hidden="true">
       <div className={`card__media skeleton ${shape}`} />
       <div className="card__body">
-        <div className="skeleton skeleton--line" style={{ width: "75%", height: 24 }} />
-        <div className="skeleton skeleton--line" style={{ width: "50%", marginTop: 12 }} />
-        <div className="skeleton skeleton--line" style={{ width: "100%", height: 40, marginTop: 20 }} />
+        <div
+          className="skeleton skeleton--line"
+          style={{ width: "75%", height: 24 }}
+        />
+        <div
+          className="skeleton skeleton--line"
+          style={{ width: "50%", marginTop: 12 }}
+        />
+        <div
+          className="skeleton skeleton--line"
+          style={{ width: "100%", height: 40, marginTop: 20 }}
+        />
       </div>
     </div>
   );
@@ -168,13 +179,12 @@ function FoodCard({ food, index }) {
 
   return (
     <article className="card">
-      <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-        <img
-          src={food.image ?? "./assets/vietnamese_do_and_dont.png"}
-          alt={food.name}
-          className={food.image ? "card__img" : "card__img card__img--crop"}
-          style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
-        />
+      <div
+        className={`card__media ${
+          index % 2 === 0 ? "card__media--tall" : "card__media--short"
+        }`}
+      >
+        <FoodImage src={getFoodImage(food.slug)} />
         {index === 0 && <span className="badge">Best match</span>}
       </div>
 
@@ -182,6 +192,18 @@ function FoodCard({ food, index }) {
         <h3 className="card__name">{food.name}</h3>
         {(food.note ?? food.description) && (
           <p className="card__note">{food.note ?? food.description}</p>
+        )}
+        
+        {/* Meta info (Time & Difficulty) */}
+        {(food.time || food.difficulty) && (
+          <div className="card__meta">
+            {food.time && (
+              <span className="card__time">
+                <Icon name="clock" size={14} /> {food.time} min
+              </span>
+            )}
+            {food.difficulty && <span>{food.difficulty}</span>}
+          </div>
         )}
 
         {/* Dropdown Toggle Button */}
@@ -191,7 +213,12 @@ function FoodCard({ food, index }) {
           className="restaurant-btn"
         >
           <span>Find nearest restaurant</span>
-          <span style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}>
+          <span
+            style={{
+              transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s ease",
+            }}
+          >
             <Icon name="arrowDown" size={16} />
           </span>
         </button>
@@ -208,7 +235,6 @@ function FoodCard({ food, index }) {
 }
 
 export default function App() {
-  // State chính
   const [weather, setWeather] = useState(null);
   const [mood, setMood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -226,7 +252,7 @@ export default function App() {
     setHasSearched(true);
 
     try {
-      await new Promise((r) => setTimeout(r, 900)); // giả lập thời gian chờ API
+      await new Promise((r) => setTimeout(r, 900));
       setFoodResults(getMockRecommendations(weather, mood));
     } catch (err) {
       console.error(err);
@@ -265,13 +291,20 @@ export default function App() {
               <br />
               <em>moment.</em>
             </h1>
-            <p className="lead">Pick the weather and your mood. We’ll find food that fits both.</p>
+            <p className="lead">
+              Pick the weather and your mood. We’ll find food that fits both.
+            </p>
 
             <div className="group">
               <h2 className="group__title">What’s the weather?</h2>
               <div className="choices choices--3">
                 {WEATHERS.map((item) => (
-                  <ChoiceButton key={item.id} option={item} active={weather === item.id} onSelect={setWeather} />
+                  <ChoiceButton
+                    key={item.id}
+                    option={item}
+                    active={weather === item.id}
+                    onSelect={setWeather}
+                  />
                 ))}
               </div>
             </div>
@@ -280,12 +313,22 @@ export default function App() {
               <h2 className="group__title">How are you feeling?</h2>
               <div className="choices choices--2">
                 {MOODS.map((item) => (
-                  <ChoiceButton key={item.id} option={item} active={mood === item.id} onSelect={setMood} />
+                  <ChoiceButton
+                    key={item.id}
+                    option={item}
+                    active={mood === item.id}
+                    onSelect={setMood}
+                  />
                 ))}
               </div>
             </div>
 
-            <button type="button" className="cta" onClick={handleRecommend} disabled={!canSubmit}>
+            <button
+              type="button"
+              className="cta"
+              onClick={handleRecommend}
+              disabled={!canSubmit}
+            >
               {loading ? "Finding food…" : "Suggest food"}
             </button>
           </div>
@@ -294,7 +337,6 @@ export default function App() {
             <img
               src={foodImage}
               alt="A seasonal table of soup, grain bowl, pasta and herb noodles"
-              className="hero__img-background"
             />
 
             {/* Search Overlay Widget */}
@@ -333,37 +375,25 @@ export default function App() {
             {error && <p className="error">{error}</p>}
 
             <div className="grid">
-              {loading && Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} index={i} />)}
+              {loading &&
+                Array.from({ length: 4 }).map((_, i) => (
+                  <SkeletonCard key={i} index={i} />
+                ))}
 
               {!loading &&
                 foodResults.map((food, index) => (
-                  <article key={food.id ?? food.name ?? index} className="card">
-                    <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-                      <FoodImage src={getFoodImage(food.slug)} alt={food.name} />
-                      {index === 0 && <span className="badge">Best match</span>}
-                    </div>
-                    <div className="card__body">
-                      <h3 className="card__name">{food.name}</h3>
-                      {(food.note ?? food.description) && (
-                        <p className="card__note">{food.note ?? food.description}</p>
-                      )}
-                      {(food.time || food.difficulty) && (
-                        <div className="card__meta">
-                          {food.time && (
-                            <span className="card__time">
-                              <Icon name="clock" size={14} /> {food.time} min
-                            </span>
-                          )}
-                          {food.difficulty && <span>{food.difficulty}</span>}
-                        </div>
-                      )}
-                    </div>
-                  </article>
+                  <FoodCard
+                    key={food.id ?? food.name ?? index}
+                    food={food}
+                    index={index}
+                  />
                 ))}
             </div>
 
             {!loading && !error && foodResults.length === 0 && (
-              <p className="empty">No matches for this combination yet. Try a different weather or mood.</p>
+              <p className="empty">
+                No matches for this combination yet. Try a different weather or mood.
+              </p>
             )}
           </div>
         </section>
