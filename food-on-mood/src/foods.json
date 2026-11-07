@@ -351,20 +351,6 @@
       ]
     },
     {
-      "name": "Samgyetang",
-      "slug": "samgyetang",
-      "note": "Ginseng chicken soup",
-      "time": 90,
-      "difficulty": "Medium",
-      "weather": [
-        "rainy",
-        "snowy"
-      ],
-      "mood": [
-        "bad"
-      ]
-    },
-    {
       "name": "Tom Yum",
       "slug": "tom-yum",
       "note": "Hot and sour shrimp soup",
@@ -516,20 +502,6 @@
       ],
       "mood": [
         "good"
-      ]
-    },
-    {
-      "name": "Hot and Sour Soup",
-      "slug": "hot-and-sour-soup",
-      "note": "Tangy peppery soup",
-      "time": 25,
-      "difficulty": "Easy",
-      "weather": [
-        "rainy",
-        "snowy"
-      ],
-      "mood": [
-        "bad"
       ]
     },
     {
@@ -758,48 +730,6 @@
       ]
     },
     {
-      "name": "Citrus Harvest Bowl",
-      "slug": "citrus-bowl",
-      "note": "With toasted grains",
-      "time": 20,
-      "difficulty": "Easy",
-      "weather": [
-        "sunny"
-      ],
-      "mood": [
-        "good"
-      ]
-    },
-    {
-      "name": "Green Herb Noodles",
-      "slug": "herb-noodles",
-      "note": "With chilli crisp",
-      "time": 20,
-      "difficulty": "Easy",
-      "weather": [
-        "sunny",
-        "rainy"
-      ],
-      "mood": [
-        "good"
-      ]
-    },
-    {
-      "name": "Spiced Coconut Curry",
-      "slug": "coconut-curry",
-      "note": "With lime and coriander",
-      "time": 30,
-      "difficulty": "Medium",
-      "weather": [
-        "rainy",
-        "snowy"
-      ],
-      "mood": [
-        "good",
-        "bad"
-      ]
-    },
-    {
       "name": "Charred Peach Salad",
       "slug": "peach-salad",
       "note": "With basil and burrata",
@@ -854,20 +784,7 @@
       ]
     },
     {
-      "name": "Hummus Plate",
-      "slug": "hummus-plate",
-      "note": "With warm pita and olives",
-      "time": 15,
-      "difficulty": "Easy",
-      "weather": [
-        "sunny"
-      ],
-      "mood": [
-        "good"
-      ]
-    },
-    {
-      "name": "Chicken Shawarma",
+      "name": "Chicken Shawarma Bowl",
       "slug": "chicken-shawarma",
       "note": "Spiced chicken, garlic sauce",
       "time": 40,
@@ -1408,5 +1325,19 @@
       "mood": [
         "bad"
       ]
-    }
+    },
+    {
+        "name": "Korean BBQ",
+        "slug": "korean-bbq",
+        "note": "Grilled meat, lettuce wraps, banchan",
+        "time": 40,
+        "difficulty": "Medium",
+        "weather": [
+          "sunny",
+          "rainy"
+        ],
+        "mood": [
+          "good"
+        ]
+      }
   ]
