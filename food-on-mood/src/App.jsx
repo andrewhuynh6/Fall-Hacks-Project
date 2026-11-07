@@ -103,6 +103,26 @@ const WEATHERS = [
   { id: "rainy", label: "Rainy", subtitle: "Grey & damp", icon: "rain" },
   { id: "snowy", label: "Snowy", subtitle: "Cold & quiet", icon: "snow" },
 ];
+const getWeatherCategory = (code) => {
+  // Snow
+  if ([71, 73, 75, 77, 85, 86].includes(code)) {
+    return "snowy";
+  }
+
+  // Rain, drizzle, showers, thunderstorms
+  if (
+    [
+      51, 53, 55, 56, 57,
+      61, 63, 65, 66, 67,
+      80, 81, 82, 95, 96, 99,
+    ].includes(code)
+  ) {
+    return "rainy";
+  }
+
+  // Clear, partly cloudy, cloudy, foggy
+  return "sunny";
+};
 
 const MOODS = [
   { id: "good", label: "Good", subtitle: "Feeling bright", icon: "smile" },
@@ -261,34 +281,44 @@ export default function App() {
   const [locationError, setLocationError] = useState("");
   // Search weather by city name
   const handleLocationSearch = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!cityInput.trim()) {
-      setLocationError("Please enter a city name.");
-      return;
-    }
+  if (!cityInput.trim()) {
+    setLocationError("Please enter a city name.");
+    return;
+  }
 
-    try {
-      setLocationLoading(true);
-      setLocationError("");
+  try {
+    setLocationLoading(true);
+    setLocationError("");
 
-      // Get city coordinates
-      const location = await resolveLocation(cityInput);
+    // Get city coordinates
+    const location = await resolveLocation(cityInput);
 
-      setLocationData(location);
+    // Get weather using coordinates
+    const weatherData = await fetchWeather(
+      location.lat,
+      location.lon
+    );
 
-      // Get weather using coordinates
-      const weatherData = await fetchWeather(location.lat, location.lon);
+    setLocationData(location);
+    setApiWeather(weatherData);
+    setWeather(getWeatherCategory(weatherData.weathercode));
+    // Automatically select the closest weather button
+    const weatherCategory = getWeatherCategory(
+      weatherData.weathercode
+    );
 
-      setApiWeather(weatherData);
-    } catch (err) {
-      setLocationError(err.message);
-      setLocationData(null);
-      setApiWeather(null);
-    } finally {
-      setLocationLoading(false);
-    }
-  };
+    setWeather(weatherCategory);
+
+  } catch (err) {
+    setLocationError(err.message);
+    setLocationData(null);
+    setApiWeather(null);
+  } finally {
+    setLocationLoading(false);
+  }
+};
 
   const canSubmit = weather && mood && !loading;
 
@@ -376,11 +406,15 @@ export default function App() {
 
             <button
               type="button"
-              className="cta"
+              className={`cta ${loading ? "cta--loading" : ""}`}
               onClick={handleRecommend}
               disabled={!canSubmit}
             >
-              {loading ? "Finding food…" : "Suggest food"}
+              <span>{loading ? "Finding food…" : "Suggest food"}</span>
+
+              <span className="cta__sparkle">
+                <Icon name="sparkle" size={20} />
+              </span>
             </button>
           </div>
 
@@ -390,7 +424,6 @@ export default function App() {
               alt="A seasonal table of soup, grain bowl, pasta and herb noodles"
             />
 
-            {/* Search Overlay Widget */}
             {/* Search Overlay Widget */}
             <div className="search-widget">
               <form
@@ -445,6 +478,7 @@ export default function App() {
                     );
 
                     setApiWeather(weatherData);
+                    setWeather(getWeatherCategory(weatherData.weathercode));
                   } catch (err) {
                     setLocationError(err.message);
                   } finally {
