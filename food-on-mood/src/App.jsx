@@ -1,7 +1,11 @@
 import { useState } from "react";
 import "./App.css";
+<<<<<<< HEAD
 import foodsData from "./foods.json";
 
+=======
+import foodImage from "./assets/vietnamese_do_and_dont.jpg";
+>>>>>>> 94fe7f4948c33bdf416b8ee28a206c217b328917
 
 /* ---------- Icons ---------- */
 const ICON_PATHS = {
@@ -36,14 +40,21 @@ const ICON_PATHS = {
       <path d="M8 7c0-1 1-1.5 1-2.5S8 3 8 2M13 7c0-1 1-1.5 1-2.5S13 3 13 2" />
     </>
   ),
-  clock: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </>
-  ),
   sparkle: (
     <path d="m12 3 1.2 4.1a5 5 0 0 0 3.7 3.7L21 12l-4.1 1.2a5 5 0 0 0-3.7 3.7L12 21l-1.2-4.1a5 5 0 0 0-3.7-3.7L3 12l4.1-1.2a5 5 0 0 0 3.7-3.7L12 3Z" />
+  ),
+  arrowDown: <path d="M12 5v14M19 12l-7 7-7-7" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </>
+  ),
+  locationPin: (
+    <>
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </>
   ),
 };
 
@@ -77,6 +88,7 @@ const MOODS = [
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
 
+<<<<<<< HEAD
 // Dữ liệu mẫu tạm thời (chưa nối backend). Sau này thay bằng fetch("/api/recommend").
 const MOCK_FOODS = [
   { name: "Beef Phở", image: "/foods/pho.png", note: "with fresh herbs & lime", time: 40, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
@@ -86,6 +98,53 @@ const MOCK_FOODS = [
   { name: "Green Herb Noodles", image: "/foods/herb-noodles.jpg", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
   { name: "Spiced Coconut Curry", image: "/foods/coconut-curry.jpg", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
   { name: "Charred Peach Salad", image: "/foods/peach-salad.jpg", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
+=======
+const IMAGE_POSITIONS = ["20% 13%", "66% 10%", "25% 88%", "75% 85%"];
+
+const MOCK_FOODS = [
+  { 
+    id: 1,
+    name: "Roasted Tomato Soup", 
+    note: "Rich and creamy soup paired with garlic herb sourdough toast.", 
+    weather: ["rainy", "snowy"], 
+    mood: ["bad", "good"] 
+  },
+  { 
+    id: 2,
+    name: "Citrus Harvest Bowl", 
+    note: "Fresh grapefruit, avocado, and toasted grains with citrus dressing.", 
+    weather: ["sunny"], 
+    mood: ["good"] 
+  },
+  { 
+    id: 3,
+    name: "Wild Mushroom Pasta", 
+    note: "Sautéed wild mushrooms tossed with fresh thyme and pecorino cheese.", 
+    weather: ["rainy", "snowy"], 
+    mood: ["bad"] 
+  },
+  { 
+    id: 4,
+    name: "Green Herb Noodles", 
+    note: "Chewy noodles tossed in fresh aromatic herbs and crispy chili oil.", 
+    weather: ["sunny", "rainy"], 
+    mood: ["good"] 
+  },
+  { 
+    id: 5,
+    name: "Spiced Coconut Curry", 
+    note: "Warm coconut broth infused with lemongrass, lime, and fresh coriander.", 
+    weather: ["rainy", "snowy"], 
+    mood: ["bad", "good"] 
+  },
+  { 
+    id: 6,
+    name: "Charred Peach Salad", 
+    note: "Grilled summer peaches served over creamy burrata and fresh basil.", 
+    weather: ["sunny"], 
+    mood: ["good", "bad"] 
+  },
+>>>>>>> 94fe7f4948c33bdf416b8ee28a206c217b328917
 ];
 
 const getMockRecommendations = (weather, mood) =>
@@ -132,14 +191,62 @@ function SkeletonCard({ index }) {
       <div className="card__body">
         <div className="skeleton skeleton--line" style={{ width: "75%", height: 24 }} />
         <div className="skeleton skeleton--line" style={{ width: "50%", marginTop: 12 }} />
-        <div className="skeleton skeleton--line" style={{ width: "33%", marginTop: 24 }} />
+        <div className="skeleton skeleton--line" style={{ width: "100%", height: 40, marginTop: 20 }} />
       </div>
     </div>
   );
 }
 
+/* Dish Card component with local toggle state */
+function FoodCard({ food, index }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <article className="card">
+      <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
+        <img
+          src={food.image ?? foodImage}
+          alt={food.name}
+          className={food.image ? "card__img" : "card__img card__img--crop"}
+          style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
+        />
+        {index === 0 && <span className="badge">Best match</span>}
+      </div>
+
+      <div className="card__body">
+        <h3 className="card__name">{food.name}</h3>
+        {(food.note ?? food.description) && (
+          <p className="card__note">{food.note ?? food.description}</p>
+        )}
+
+        {/* Dropdown Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="restaurant-btn"
+        >
+          <span>Find nearest restaurant</span>
+          <span style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}>
+            <Icon name="arrowDown" size={16} />
+          </span>
+        </button>
+
+        {/* Empty Dropdown Content */}
+        {isOpen && (
+          <div className="restaurant-dropdown-content">
+            <p>No restaurants available yet.</p>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
 export default function App() {
+<<<<<<< HEAD
   // State chính
+=======
+>>>>>>> 94fe7f4948c33bdf416b8ee28a206c217b328917
   const [weather, setWeather] = useState(null);
   const [mood, setMood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -157,7 +264,11 @@ export default function App() {
     setHasSearched(true);
 
     try {
+<<<<<<< HEAD
       await new Promise((r) => setTimeout(r, 900)); // giả lập thời gian chờ API
+=======
+      await new Promise((r) => setTimeout(r, 900));
+>>>>>>> 94fe7f4948c33bdf416b8ee28a206c217b328917
       setFoodResults(getMockRecommendations(weather, mood));
     } catch (err) {
       console.error(err);
@@ -222,9 +333,32 @@ export default function App() {
           </div>
 
           <div className="hero__image">
-            <img src="/seasonal-table.png" alt="A seasonal table of soup, grain bowl, pasta and herb noodles" />
-            <div className="hero__shade" />
-          </div>
+            <img 
+              src={foodImage} 
+              alt="A seasonal table of soup, grain bowl, pasta and herb noodles" 
+              className="hero__img-background"
+            />
+            
+            {/* Search Overlay Widget */}
+            <div className="search-widget">
+              <div className="search-widget__row">
+                <Icon name="search" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Search city · Lisbon" 
+                  className="search-widget__input"
+                />
+                <button type="button" className="search-widget__btn">
+                  Go
+                </button>
+              </div>
+
+              <button type="button" className="search-widget__location">
+                <Icon name="locationPin" size={16} />
+                <span>Use my current location</span>
+              </button>
+            </div>
+            </div>
         </div>
       </section>
 
@@ -245,6 +379,7 @@ export default function App() {
 
               {!loading &&
                 foodResults.map((food, index) => (
+<<<<<<< HEAD
                   <article key={food.id ?? food.name ?? index} className="card">
                     <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
                       <FoodImage src={`/foods/${food.slug}.png`} />
@@ -267,6 +402,9 @@ export default function App() {
                       )}
                     </div>
                   </article>
+=======
+                  <FoodCard key={food.id ?? index} food={food} index={index} />
+>>>>>>> 94fe7f4948c33bdf416b8ee28a206c217b328917
                 ))}
             </div>
 
