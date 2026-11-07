@@ -34,15 +34,10 @@ const ICON_PATHS = {
       <path d="M8 7c0-1 1-1.5 1-2.5S8 3 8 2M13 7c0-1 1-1.5 1-2.5S13 3 13 2" />
     </>
   ),
-  clock: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </>
-  ),
   sparkle: (
     <path d="m12 3 1.2 4.1a5 5 0 0 0 3.7 3.7L21 12l-4.1 1.2a5 5 0 0 0-3.7 3.7L12 21l-1.2-4.1a5 5 0 0 0-3.7-3.7L3 12l4.1-1.2a5 5 0 0 0 3.7-3.7L12 3Z" />
   ),
+  arrowDown: <path d="M12 5v14M19 12l-7 7-7-7" />,
 };
 
 function Icon({ name, size = 20 }) {
@@ -75,17 +70,51 @@ const MOODS = [
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
 
-// image crop positions in seasonal-table.png 
 const IMAGE_POSITIONS = ["20% 13%", "66% 10%", "25% 88%", "75% 85%"];
 
-// Mock data. Replace by fetch("/api/recommend") when api is done
 const MOCK_FOODS = [
-  { name: "Roasted Tomato Soup", note: "with herb sourdough", time: 25, difficulty: "Easy", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Citrus Harvest Bowl", note: "with toasted grains", time: 20, difficulty: "Easy", weather: ["sunny"], mood: ["good"] },
-  { name: "Wild Mushroom Pasta", note: "with thyme & pecorino", time: 35, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad"] },
-  { name: "Green Herb Noodles", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
-  { name: "Spiced Coconut Curry", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Charred Peach Salad", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
+  { 
+    id: 1,
+    name: "Roasted Tomato Soup", 
+    note: "Rich and creamy soup paired with garlic herb sourdough toast.", 
+    weather: ["rainy", "snowy"], 
+    mood: ["bad", "good"] 
+  },
+  { 
+    id: 2,
+    name: "Citrus Harvest Bowl", 
+    note: "Fresh grapefruit, avocado, and toasted grains with citrus dressing.", 
+    weather: ["sunny"], 
+    mood: ["good"] 
+  },
+  { 
+    id: 3,
+    name: "Wild Mushroom Pasta", 
+    note: "Sautéed wild mushrooms tossed with fresh thyme and pecorino cheese.", 
+    weather: ["rainy", "snowy"], 
+    mood: ["bad"] 
+  },
+  { 
+    id: 4,
+    name: "Green Herb Noodles", 
+    note: "Chewy noodles tossed in fresh aromatic herbs and crispy chili oil.", 
+    weather: ["sunny", "rainy"], 
+    mood: ["good"] 
+  },
+  { 
+    id: 5,
+    name: "Spiced Coconut Curry", 
+    note: "Warm coconut broth infused with lemongrass, lime, and fresh coriander.", 
+    weather: ["rainy", "snowy"], 
+    mood: ["bad", "good"] 
+  },
+  { 
+    id: 6,
+    name: "Charred Peach Salad", 
+    note: "Grilled summer peaches served over creamy burrata and fresh basil.", 
+    weather: ["sunny"], 
+    mood: ["good", "bad"] 
+  },
 ];
 
 const getMockRecommendations = (weather, mood) =>
@@ -120,14 +149,58 @@ function SkeletonCard({ index }) {
       <div className="card__body">
         <div className="skeleton skeleton--line" style={{ width: "75%", height: 24 }} />
         <div className="skeleton skeleton--line" style={{ width: "50%", marginTop: 12 }} />
-        <div className="skeleton skeleton--line" style={{ width: "33%", marginTop: 24 }} />
+        <div className="skeleton skeleton--line" style={{ width: "100%", height: 40, marginTop: 20 }} />
       </div>
     </div>
   );
 }
 
+/* Dish Card component with local toggle state */
+function FoodCard({ food, index }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <article className="card">
+      <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
+        <img
+          src={food.image ?? "/seasonal-table.png"}
+          alt={food.name}
+          className={food.image ? "card__img" : "card__img card__img--crop"}
+          style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
+        />
+        {index === 0 && <span className="badge">Best match</span>}
+      </div>
+
+      <div className="card__body">
+        <h3 className="card__name">{food.name}</h3>
+        {(food.note ?? food.description) && (
+          <p className="card__note">{food.note ?? food.description}</p>
+        )}
+
+        {/* Dropdown Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="restaurant-btn"
+        >
+          <span>Find nearest restaurant</span>
+          <span style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}>
+            <Icon name="arrowDown" size={16} />
+          </span>
+        </button>
+
+        {/* Empty Dropdown Content */}
+        {isOpen && (
+          <div className="restaurant-dropdown-content">
+            <p>No restaurants available yet.</p>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
 export default function App() {
-  // main states
   const [weather, setWeather] = useState(null);
   const [mood, setMood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -145,7 +218,7 @@ export default function App() {
     setHasSearched(true);
 
     try {
-      await new Promise((r) => setTimeout(r, 900)); //time to wait for api
+      await new Promise((r) => setTimeout(r, 900));
       setFoodResults(getMockRecommendations(weather, mood));
     } catch (err) {
       console.error(err);
@@ -233,33 +306,7 @@ export default function App() {
 
               {!loading &&
                 foodResults.map((food, index) => (
-                  <article key={food.id ?? food.name ?? index} className="card">
-                    <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-                      <img
-                        src={food.image ?? "/seasonal-table.png"}
-                        alt=""
-                        className={food.image ? "card__img" : "card__img card__img--crop"}
-                        style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
-                      />
-                      {index === 0 && <span className="badge">Best match</span>}
-                    </div>
-                    <div className="card__body">
-                      <h3 className="card__name">{food.name}</h3>
-                      {(food.note ?? food.description) && (
-                        <p className="card__note">{food.note ?? food.description}</p>
-                      )}
-                      {(food.time || food.difficulty) && (
-                        <div className="card__meta">
-                          {food.time && (
-                            <span className="card__time">
-                              <Icon name="clock" size={14} /> {food.time} min
-                            </span>
-                          )}
-                          {food.difficulty && <span>{food.difficulty}</span>}
-                        </div>
-                      )}
-                    </div>
-                  </article>
+                  <FoodCard key={food.id ?? index} food={food} index={index} />
                 ))}
             </div>
 
