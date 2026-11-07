@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import { fetchFoodRecommendations } from './geminiServices'
 
 function App() {
   const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // NEw States for the Flow
+  const [mood, setMood] = useState(null)
+  const [foods, setFoods] = useState([])
+  const [findingFood, setFindingFood] = useState(false)
   // Function to call the Open-Meteo API
   const fetchWeather = async (latitude, longitude) => {
     try {
@@ -46,31 +51,65 @@ function App() {
     )
   }, [])
 
-  return (
-    <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6">
-      <div className="max-w-md w-full bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 text-center">
-        <h1 className="text-2xl font-bold mb-4 text-emerald-400">Weather & Food Finder</h1>
-        
-        {loading && <p className="text-slate-400 animate-pulse">Detecting location & fetching weather...</p>}
-        
-        {error && <p className="text-red-400 text-sm bg-red-950/50 p-3 rounded-lg border border-red-800">{error}</p>}
+  // Trigger Gemini API when mood is selected
+  const handleMoodSelect = async (selectedMood) => {
+    setMood(selectedMood)
+    setFindingFood(true)
+    
+    // Pass the temperature to Gemini
+    const weatherString = weather ? `${weather.temperature}°C` : "mild"
+    const results = await fetchFoodRecommendations(weatherString, selectedMood)
+    
+    setFoods(results)
+    setFindingFood(false)
+  }
+return (
+ <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6">
+  <div className="max-w-md w-full bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 text-center">
+    <h1 className="text-2xl font-bold mb-4 text-emerald-400">Weather & Food Finder</h1>
+ 
+    {loading && <p className="text-slate-400 animate-pulse">Detecting location & fetching weather...</p>}
+    {error && <p className="text-red-400 text-sm bg-red-950/50 p-3 rounded-lg border border-red-800">{error}</p>}
 
-        {weather && !loading && (
-          <div className="space-y-3">
-            <div className="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
-              <p className="text-sm text-slate-300">Current Temperature</p>
-              <p className="text-4xl font-extrabold text-white mt-1">{weather.temperature}°C</p>
-            </div>
-            <div className="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
-              <p className="text-sm text-slate-300">Wind Speed</p>
-              <p className="text-xl font-bold text-emerald-300 mt-1">{weather.windspeed} km/h</p>
-            </div>
-            <p className="text-xs text-slate-500 mt-4">API Connected Successfully! Ready for mood & food features.</p>
-          </div>
-        )}
+    {weather && !mood && !loading && (
+      <div className="space-y-4 mt-6">
+        <p className="text-lg">It's {weather.temperature}°C outside. How are you feeling?</p>
+        <div className="flex gap-4 justify-center mt-4">
+          <button 
+            onClick={() => handleMoodSelect('Happy')}
+            className="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg font-bold transition">
+            Good Mood
+          </button>
+          <button 
+            onClick={() => handleMoodSelect('Sad')}
+            className="bg-indigo-500 hover:bg-indigo-600 px-6 py-2 rounded-lg font-bold transition">
+            Bad Mood
+          </button>
+        </div>
       </div>
-    </div>
-  )
+    )}
+
+    {findingFood && (
+      <p className="text-emerald-300 animate-pulse mt-6">Finding the perfect food...</p>
+    )}
+
+    {foods.length > 0 && !findingFood && (
+      <div className="mt-6">
+        <h2 className="text-xl font-bold mb-4">You should eat:</h2>
+        <div className="flex flex-col gap-3">
+          {foods.map((food, index) => (
+            <button 
+              key={index}
+              className="bg-slate-700 hover:bg-slate-600 p-3 rounded-lg border border-slate-600 transition text-left">
+              {food}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+);
 }
 
 export default App
