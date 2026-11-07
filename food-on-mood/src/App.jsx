@@ -64,12 +64,6 @@ const ICON_PATHS = {
       <circle cx="12" cy="10" r="3" />
     </>
   ),
-  clock: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </>
-  ),
   cloud: <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />,
   droplet: (
     <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 15.1 5 17 5 15a7 7 0 0 0 7 7Z" />
@@ -177,7 +171,7 @@ function SkeletonCard({ index }) {
   );
 }
 
-/* Dish Card component with local toggle state */
+/* Dish Card component with local toggle state (No timer/difficulty) */
 function FoodCard({ food, index }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -196,18 +190,6 @@ function FoodCard({ food, index }) {
         <h3 className="card__name">{food.name}</h3>
         {(food.note ?? food.description) && (
           <p className="card__note">{food.note ?? food.description}</p>
-        )}
-
-        {/* Meta info (Time & Difficulty) */}
-        {(food.time || food.difficulty) && (
-          <div className="card__meta">
-            {food.time && (
-              <span className="card__time">
-                <Icon name="clock" size={14} /> {food.time} min
-              </span>
-            )}
-            {food.difficulty && <span>{food.difficulty}</span>}
-          </div>
         )}
 
         {/* Dropdown Toggle Button */}
@@ -246,13 +228,13 @@ export default function App() {
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  // City search and API weather data
-  const [cityInput, setCityInput] = useState("Lisbon");
+  // City search and API weather data (defaults to empty input)
+  const [cityInput, setCityInput] = useState("");
   const [locationData, setLocationData] = useState(null);
   const [apiWeather, setApiWeather] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState("");
-  // Search weather by city name
+
   const handleLocationSearch = async (e) => {
     e.preventDefault();
 
@@ -265,14 +247,10 @@ export default function App() {
       setLocationLoading(true);
       setLocationError("");
 
-      // Get city coordinates
       const location = await resolveLocation(cityInput);
-
       setLocationData(location);
 
-      // Get weather using coordinates
       const weatherData = await fetchWeather(location.lat, location.lon);
-
       setApiWeather(weatherData);
     } catch (err) {
       setLocationError(err.message);
@@ -327,8 +305,7 @@ export default function App() {
         <div className="hero__grid">
           <div className="hero__copy">
             <p className="eyebrow">
-              <Icon name="sparkle" size={16} /> Food that meets you where you
-              are
+              <Icon name="sparkle" size={16} /> Food that meets you where you are
             </p>
             <h1 className="title">
               Eat for the
@@ -381,9 +358,9 @@ export default function App() {
             <img
               src={foodImage}
               alt="A seasonal table of soup, grain bowl, pasta and herb noodles"
+              className="hero__img-background"
             />
 
-            {/* Search Overlay Widget */}
             {/* Search Overlay Widget */}
             <div className="search-widget">
               <form
@@ -394,7 +371,7 @@ export default function App() {
 
                 <input
                   type="text"
-                  placeholder="Search city · Lisbon"
+                  placeholder="Search city · Vancouver"
                   className="search-widget__input"
                   value={cityInput}
                   onChange={(e) => setCityInput(e.target.value)}
@@ -409,15 +386,6 @@ export default function App() {
                 </button>
               </form>
 
-              {/* Display search results */}
-              {locationData && apiWeather && (
-                <div className="location-weather">
-                  <p>{locationData.name}</p>
-                  <h3>{apiWeather.temperature}°C</h3>
-                  <p>Wind: {apiWeather.windspeed} km/h</p>
-                </div>
-              )}
-
               {locationError && <p className="error">{locationError}</p>}
 
               <button
@@ -429,14 +397,12 @@ export default function App() {
                     setLocationError("");
 
                     const location = await resolveLocation();
-
                     setLocationData(location);
 
                     const weatherData = await fetchWeather(
                       location.lat,
                       location.lon,
                     );
-
                     setApiWeather(weatherData);
                   } catch (err) {
                     setLocationError(err.message);
@@ -450,6 +416,38 @@ export default function App() {
                 <span>Use my current location</span>
               </button>
             </div>
+
+            {/* Bottom Weather Display Widget (Matches Photo) */}
+            {locationData && apiWeather && (
+              <div className="weather-overlay">
+                <div className="weather-overlay__location">
+                  <Icon name="locationPin" size={14} />
+                  <span>{locationData.name || cityInput}</span>
+                </div>
+
+                <div className="weather-overlay__main">
+                  <Icon name="cloud" size={40} />
+                  <span className="weather-overlay__temp">
+                    {Math.round(apiWeather.temperature ?? apiWeather.temp ?? 18)}°
+                  </span>
+                </div>
+
+                <div className="weather-overlay__meta">
+                  <div className="weather-overlay__condition">
+                    {apiWeather.condition || "Partly cloudy"}
+                    {` · feels like ${Math.round(apiWeather.apparentTemperature ?? apiWeather.feelsLike ?? apiWeather.temperature ?? 17)}°`}
+                  </div>
+                  <div className="weather-overlay__stats">
+                    <span>
+                      <Icon name="droplet" size={14} /> {apiWeather.humidity ?? 64}%
+                    </span>
+                    <span>
+                      <Icon name="wind" size={14} /> {apiWeather.windspeed ?? apiWeather.windSpeed ?? 7} km/h
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
