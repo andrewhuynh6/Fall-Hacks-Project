@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import foodsData from "./foods.json";
+
 
 /* ---------- Icons ---------- */
 const ICON_PATHS = {
@@ -87,7 +89,7 @@ const MOCK_FOODS = [
 ];
 
 const getMockRecommendations = (weather, mood) =>
-  MOCK_FOODS.map((f) => ({
+  foodsData.map((f) => ({
     ...f,
     score: (f.weather.includes(weather) ? 1 : 0) + (f.mood.includes(mood) ? 1 : 0),
   }))
@@ -245,7 +247,7 @@ export default function App() {
                 foodResults.map((food, index) => (
                   <article key={food.id ?? food.name ?? index} className="card">
                     <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-                      <FoodImage src={food.image} />
+                      <FoodImage src={`/foods/${food.slug}.png`} />
                       {index === 0 && <span className="badge">Best match</span>}
                     </div>
                     <div className="card__body">
