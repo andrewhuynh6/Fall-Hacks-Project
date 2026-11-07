@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 import "./App.css";
 import foodsData from "./foods.json";
 import foodImage from "./assets/vietnamese_do_and_dont.jpg";
@@ -173,16 +174,89 @@ function SkeletonCard({ index }) {
   );
 }
 
-/* Dish Card component with local toggle state */
+/* Dish Card component with Google Places API */
 function FoodCard({ food, index }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
+  const [placesError, setPlacesError] = useState("");
+
+  const handleFindRestaurants = async () => {
+    const nextOpenState = !isOpen;
+    setIsOpen(nextOpenState);
+
+    if (nextOpenState && restaurants.length === 0 && !isLoadingPlaces) {
+      setIsLoadingPlaces(true);
+      setPlacesError("");
+
+      if (!navigator.geolocation) {
+        setPlacesError("Geolocation is not supported by your browser.");
+        setIsLoadingPlaces(false);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          try {
+            setOptions({
+              key: "AIzaSyDn1J7VWqclntfoED2oRrUGf3EVNkq_8LI",
+              v: "weekly",
+            });
+
+            const { Place } = await importLibrary("places");
+
+            // 1. Use textSearch to find restaurants that match the food name
+            const request = {
+              textQuery: `${food.name} restaurant`, // e.g., "Phở Bò restaurant"
+              fields: ["displayName", "formattedAddress", "location"],
+              locationBias: {
+                center: userLocation,
+                radius: 5000, // Bias results to within 5km of the user
+              },
+              maxResultCount: 3,
+            };
+
+            // 2. Use searchByText instead of searchNearby
+            const { places } = await Place.searchByText(request);
+
+            if (places && places.length > 0) {
+              const formatted = places.map((place) => ({
+                place_id: place.id,
+                name: place.displayName,
+                vicinity: place.formattedAddress,
+              }));
+              setRestaurants(formatted);
+            } else {
+              setRestaurants([]);
+            }
+
+            setIsLoadingPlaces(false);
+          } catch (error) {
+            console.error("Places Error:", error);
+            setPlacesError(`Google Error: ${error.message || "Unknown error"}`);
+            setIsLoadingPlaces(false);
+          }
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setPlacesError("Please allow location access to find restaurants.");
+          setIsLoadingPlaces(false);
+        },
+        { timeout: 10000 } // Geolocation timeout
+      );
+    }
+  };
 
   return (
     <article className="card">
       <div
-        className={`card__media ${
-          index % 2 === 0 ? "card__media--tall" : "card__media--short"
-        }`}
+        className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"
+          }`}
       >
         <FoodImage src={getFoodImage(food.slug)} />
         {index === 0 && <span className="badge">Best match</span>}
@@ -193,8 +267,7 @@ function FoodCard({ food, index }) {
         {(food.note ?? food.description) && (
           <p className="card__note">{food.note ?? food.description}</p>
         )}
-        
-        {/* Meta info (Time & Difficulty) */}
+
         {(food.time || food.difficulty) && (
           <div className="card__meta">
             {food.time && (
@@ -206,10 +279,9 @@ function FoodCard({ food, index }) {
           </div>
         )}
 
-        {/* Dropdown Toggle Button */}
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleFindRestaurants}
           className="restaurant-btn"
         >
           <span>Find nearest restaurant</span>
@@ -223,10 +295,32 @@ function FoodCard({ food, index }) {
           </span>
         </button>
 
-        {/* Empty Dropdown Content */}
         {isOpen && (
           <div className="restaurant-dropdown-content">
-            <p>No restaurants available yet.</p>
+            {isLoadingPlaces ? (
+              <p>Searching nearby...</p>
+            ) : placesError ? (
+              <p style={{ color: "var(--error)" }}>{placesError}</p>
+            ) : restaurants.length > 0 ? (
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left" }}>
+                {restaurants.map((place) => (
+                  <li
+                    key={place.place_id}
+                    style={{
+                      marginBottom: "10px",
+                      borderBottom: "1px solid #e5e5e5",
+                      paddingBottom: "6px",
+                    }}
+                  >
+                    <strong style={{ color: "#292524" }}>{place.name}</strong>
+                    <br />
+                    <small style={{ color: "#78716c" }}>{place.vicinity}</small>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No restaurants found nearby.</p>
+            )}
           </div>
         )}
       </div>
