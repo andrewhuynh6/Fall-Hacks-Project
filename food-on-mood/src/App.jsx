@@ -1,76 +1,283 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [weather, setWeather] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+/* ---------- Icons ---------- */
+const ICON_PATHS = {
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </>
+  ),
+  rain: (
+    <>
+      <path d="M7 15h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.15 5.4 4.8 4.8 0 0 0 7 15Z" />
+      <path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2" />
+    </>
+  ),
+  snow: <path d="M12 2v20M4.2 7l15.6 10M4.2 17 19.8 7" />,
+  smile: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
+    </>
+  ),
+  frown: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8 16s1.5-2 4-2 4 2 4 2M9 9h.01M15 9h.01" />
+    </>
+  ),
+  bowl: (
+    <>
+      <path d="M4 11h16c0 5-3.5 8-8 8s-8-3-8-8Z" />
+      <path d="M8 7c0-1 1-1.5 1-2.5S8 3 8 2M13 7c0-1 1-1.5 1-2.5S13 3 13 2" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
+  sparkle: (
+    <path d="m12 3 1.2 4.1a5 5 0 0 0 3.7 3.7L21 12l-4.1 1.2a5 5 0 0 0-3.7 3.7L12 21l-1.2-4.1a5 5 0 0 0-3.7-3.7L3 12l4.1-1.2a5 5 0 0 0 3.7-3.7L12 3Z" />
+  ),
+};
 
-  // Function to call the Open-Meteo API
-  const fetchWeather = async (latitude, longitude) => {
-    try {
-      const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
-      )
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch weather data')
-      }
-
-      const data = await response.json()
-      setWeather(data.current_weather)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // Automatically request user location and fetch weather when the page loads
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser')
-      setLoading(false)
-      return
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords
-        fetchWeather(latitude, longitude)
-      },
-      (err) => {
-        setError('Unable to retrieve your location. Please allow location access.')
-        setLoading(false)
-      }
-    )
-  }, [])
-
+function Icon({ name, size = 20 }) {
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6">
-      <div className="max-w-md w-full bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 text-center">
-        <h1 className="text-2xl font-bold mb-4 text-emerald-400">Weather & Food Finder</h1>
-        
-        {loading && <p className="text-slate-400 animate-pulse">Detecting location & fetching weather...</p>}
-        
-        {error && <p className="text-red-400 text-sm bg-red-950/50 p-3 rounded-lg border border-red-800">{error}</p>}
-
-        {weather && !loading && (
-          <div className="space-y-3">
-            <div className="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
-              <p className="text-sm text-slate-300">Current Temperature</p>
-              <p className="text-4xl font-extrabold text-white mt-1">{weather.temperature}°C</p>
-            </div>
-            <div className="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
-              <p className="text-sm text-slate-300">Wind Speed</p>
-              <p className="text-xl font-bold text-emerald-300 mt-1">{weather.windspeed} km/h</p>
-            </div>
-            <p className="text-xs text-slate-500 mt-4">API Connected Successfully! Ready for mood & food features.</p>
-          </div>
-        )}
-      </div>
-    </div>
-  )
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {ICON_PATHS[name]}
+    </svg>
+  );
 }
 
-export default App
+/* ---------- Static options ---------- */
+const WEATHERS = [
+  { id: "sunny", label: "Sunny", subtitle: "Bright & warm", icon: "sun" },
+  { id: "rainy", label: "Rainy", subtitle: "Grey & damp", icon: "rain" },
+  { id: "snowy", label: "Snowy", subtitle: "Cold & quiet", icon: "snow" },
+];
+
+const MOODS = [
+  { id: "good", label: "Good", subtitle: "Feeling bright", icon: "smile" },
+  { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
+];
+
+// image crop positions in seasonal-table.png 
+const IMAGE_POSITIONS = ["20% 13%", "66% 10%", "25% 88%", "75% 85%"];
+
+// Mock data. Replace by fetch("/api/recommend") when api is done
+const MOCK_FOODS = [
+  { name: "Roasted Tomato Soup", note: "with herb sourdough", time: 25, difficulty: "Easy", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Citrus Harvest Bowl", note: "with toasted grains", time: 20, difficulty: "Easy", weather: ["sunny"], mood: ["good"] },
+  { name: "Wild Mushroom Pasta", note: "with thyme & pecorino", time: 35, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad"] },
+  { name: "Green Herb Noodles", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
+  { name: "Spiced Coconut Curry", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Charred Peach Salad", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
+];
+
+const getMockRecommendations = (weather, mood) =>
+  MOCK_FOODS.map((f) => ({
+    ...f,
+    score: (f.weather.includes(weather) ? 1 : 0) + (f.mood.includes(mood) ? 1 : 0),
+  }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4);
+
+/* ---------- Components ---------- */
+function ChoiceButton({ option, active, onSelect }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(option.id)}
+      aria-pressed={active}
+      className={`choice ${active ? "choice--active" : ""}`}
+    >
+      <Icon name={option.icon} size={22} />
+      <span className="choice__label">{option.label}</span>
+      <span className="choice__sub">{option.subtitle}</span>
+    </button>
+  );
+}
+
+function SkeletonCard({ index }) {
+  const shape = index % 2 === 0 ? "card__media--tall" : "card__media--short";
+  return (
+    <div aria-hidden="true">
+      <div className={`card__media skeleton ${shape}`} />
+      <div className="card__body">
+        <div className="skeleton skeleton--line" style={{ width: "75%", height: 24 }} />
+        <div className="skeleton skeleton--line" style={{ width: "50%", marginTop: 12 }} />
+        <div className="skeleton skeleton--line" style={{ width: "33%", marginTop: 24 }} />
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  // main states
+  const [weather, setWeather] = useState(null);
+  const [mood, setMood] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [foodResults, setFoodResults] = useState([]);
+  const [error, setError] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const canSubmit = weather && mood && !loading;
+
+  const handleRecommend = async () => {
+    if (!canSubmit) return;
+    setLoading(true);
+    setError("");
+    setFoodResults([]);
+    setHasSearched(true);
+
+    try {
+      await new Promise((r) => setTimeout(r, 900)); //time to wait for api
+      setFoodResults(getMockRecommendations(weather, mood));
+    } catch (err) {
+      console.error(err);
+      setError("We couldn't load your menu. Check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const selectedWeather = WEATHERS.find((w) => w.id === weather);
+  const selectedMood = MOODS.find((m) => m.id === mood);
+
+  return (
+    <main className="page">
+      <header className="header">
+        <div className="container header__inner">
+          <a href="#" className="logo" aria-label="Food on Mood home">
+            <span className="logo__badge">
+              <Icon name="bowl" size={18} />
+            </span>
+            <span className="logo__text">
+              Food on <em>Mood</em>
+            </span>
+          </a>
+        </div>
+      </header>
+
+      <section className="container hero">
+        <div className="hero__grid">
+          <div className="hero__copy">
+            <p className="eyebrow">
+              <Icon name="sparkle" size={16} /> Food that meets you where you are
+            </p>
+            <h1 className="title">
+              Eat for the
+              <br />
+              <em>moment.</em>
+            </h1>
+            <p className="lead">Pick the weather and your mood. We’ll find food that fits both.</p>
+
+            <div className="group">
+              <h2 className="group__title">What’s the weather?</h2>
+              <div className="choices choices--3">
+                {WEATHERS.map((item) => (
+                  <ChoiceButton key={item.id} option={item} active={weather === item.id} onSelect={setWeather} />
+                ))}
+              </div>
+            </div>
+
+            <div className="group">
+              <h2 className="group__title">How are you feeling?</h2>
+              <div className="choices choices--2">
+                {MOODS.map((item) => (
+                  <ChoiceButton key={item.id} option={item} active={mood === item.id} onSelect={setMood} />
+                ))}
+              </div>
+            </div>
+
+            <button type="button" className="cta" onClick={handleRecommend} disabled={!canSubmit}>
+              {loading ? "Finding food…" : "Suggest food"}
+            </button>
+          </div>
+
+          <div className="hero__image">
+            <img src="/seasonal-table.png" alt="A seasonal table of soup, grain bowl, pasta and herb noodles" />
+            <div className="hero__shade" />
+          </div>
+        </div>
+      </section>
+
+      {(hasSearched || error) && (
+        <section className="results" aria-live="polite">
+          <div className="container results__inner">
+            <h2 className="results__title">Your menu</h2>
+            {selectedWeather && selectedMood && (
+              <p className="results__sub">
+                {selectedWeather.label} weather, {selectedMood.label.toLowerCase()} mood.
+              </p>
+            )}
+
+            {error && <p className="error">{error}</p>}
+
+            <div className="grid">
+              {loading && Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} index={i} />)}
+
+              {!loading &&
+                foodResults.map((food, index) => (
+                  <article key={food.id ?? food.name ?? index} className="card">
+                    <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
+                      <img
+                        src={food.image ?? "/seasonal-table.png"}
+                        alt=""
+                        className={food.image ? "card__img" : "card__img card__img--crop"}
+                        style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
+                      />
+                      {index === 0 && <span className="badge">Best match</span>}
+                    </div>
+                    <div className="card__body">
+                      <h3 className="card__name">{food.name}</h3>
+                      {(food.note ?? food.description) && (
+                        <p className="card__note">{food.note ?? food.description}</p>
+                      )}
+                      {(food.time || food.difficulty) && (
+                        <div className="card__meta">
+                          {food.time && (
+                            <span className="card__time">
+                              <Icon name="clock" size={14} /> {food.time} min
+                            </span>
+                          )}
+                          {food.difficulty && <span>{food.difficulty}</span>}
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                ))}
+            </div>
+
+            {!loading && !error && foodResults.length === 0 && (
+              <p className="empty">No matches for this combination yet. Try a different weather or mood.</p>
+            )}
+          </div>
+        </section>
+      )}
+
+      <footer className="footer">
+        <div className="container footer__inner">
+          <span className="logo__text">
+            Food on <em>Mood</em>
+          </span>
+          <p>A little inspiration, whatever the weather.</p>
+        </div>
+      </footer>
+    </main>
+  );
+}
