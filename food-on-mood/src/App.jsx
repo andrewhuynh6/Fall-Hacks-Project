@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import foodsData from "./foods.json";
+import foodImage from "./assets/vietnamese_do_and_dont.jpg"
 
 
 /* ---------- Icons ---------- */
@@ -52,6 +53,12 @@ const ICON_PATHS = {
       <circle cx="12" cy="10" r="3" />
     </>
   ),
+  clock: (
+  <>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </>
+),
 };
 
 function Icon({ name, size = 20 }) {
@@ -322,7 +329,7 @@ export default function App() {
                 foodResults.map((food, index) => (
                   <article key={food.id ?? food.name ?? index} className="card">
                     <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-                      <FoodImage src={`/foods/${food.slug}.png`} />
+                      <FoodImage src={food.image} />
                       {index === 0 && <span className="badge">Best match</span>}
                     </div>
                     <div className="card__body">
