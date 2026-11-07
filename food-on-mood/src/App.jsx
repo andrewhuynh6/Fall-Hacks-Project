@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import foodImage from "./assets/vietnamese_do_and_dont.jpg";
 
 /* ---------- Icons ---------- */
 const ICON_PATHS = {
@@ -38,6 +39,18 @@ const ICON_PATHS = {
     <path d="m12 3 1.2 4.1a5 5 0 0 0 3.7 3.7L21 12l-4.1 1.2a5 5 0 0 0-3.7 3.7L12 21l-1.2-4.1a5 5 0 0 0-3.7-3.7L3 12l4.1-1.2a5 5 0 0 0 3.7-3.7L12 3Z" />
   ),
   arrowDown: <path d="M12 5v14M19 12l-7 7-7-7" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </>
+  ),
+  locationPin: (
+    <>
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </>
+  ),
 };
 
 function Icon({ name, size = 20 }) {
@@ -163,7 +176,7 @@ function FoodCard({ food, index }) {
     <article className="card">
       <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
         <img
-          src={food.image ?? "/seasonal-table.png"}
+          src={food.image ?? foodImage}
           alt={food.name}
           className={food.image ? "card__img" : "card__img card__img--crop"}
           style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
@@ -283,9 +296,32 @@ export default function App() {
           </div>
 
           <div className="hero__image">
-            <img src="/seasonal-table.png" alt="A seasonal table of soup, grain bowl, pasta and herb noodles" />
-            <div className="hero__shade" />
-          </div>
+            <img 
+              src={foodImage} 
+              alt="A seasonal table of soup, grain bowl, pasta and herb noodles" 
+              className="hero__img-background"
+            />
+            
+            {/* Search Overlay Widget */}
+            <div className="search-widget">
+              <div className="search-widget__row">
+                <Icon name="search" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Search city · Lisbon" 
+                  className="search-widget__input"
+                />
+                <button type="button" className="search-widget__btn">
+                  Go
+                </button>
+              </div>
+
+              <button type="button" className="search-widget__location">
+                <Icon name="locationPin" size={16} />
+                <span>Use my current location</span>
+              </button>
+            </div>
+            </div>
         </div>
       </section>
 
