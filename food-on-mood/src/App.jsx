@@ -108,16 +108,23 @@ const MOODS = [
   { id: "good", label: "Good", subtitle: "Feeling bright", icon: "smile" },
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
-
-const getMockRecommendations = (weather, mood) =>
-  foodsData
+const getRecommendations = (weather, mood) => {
+  // 1. Score and filter out non-matches
+  const validMatches = foodsData
     .map((f) => ({
       ...f,
-      score:
-        (f.weather.includes(weather) ? 1 : 0) + (f.mood.includes(mood) ? 1 : 0),
+      score: (f.weather.includes(weather) ? 1 : 0) + (f.mood.includes(mood) ? 1 : 0),
     }))
+    .filter((f) => f.score > 0);
+
+  // 2. Shuffle the array randomly
+  const shuffled = validMatches.sort(() => 0.5 - Math.random());
+
+  // 3. Sort by score (keeps random order within the same score group) and take 4
+  return shuffled
     .sort((a, b) => b.score - a.score)
     .slice(0, 4);
+};
 
 /* ---------- Components ---------- */
 function FoodImage({ src }) {
@@ -294,7 +301,7 @@ export default function App() {
 
     try {
       await new Promise((r) => setTimeout(r, 900));
-      setFoodResults(getMockRecommendations(weather, mood));
+      setFoodResults(getRecommendations(weather, mood));
     } catch (err) {
       console.error(err);
       setError(
