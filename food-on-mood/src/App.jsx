@@ -75,17 +75,15 @@ const MOODS = [
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
 
-// image crop positions in seasonal-table.png 
-const IMAGE_POSITIONS = ["20% 13%", "66% 10%", "25% 88%", "75% 85%"];
-
-// Mock data. Replace by fetch("/api/recommend") when api is done
+// Dữ liệu mẫu tạm thời (chưa nối backend). Sau này thay bằng fetch("/api/recommend").
 const MOCK_FOODS = [
-  { name: "Roasted Tomato Soup", note: "with herb sourdough", time: 25, difficulty: "Easy", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Citrus Harvest Bowl", note: "with toasted grains", time: 20, difficulty: "Easy", weather: ["sunny"], mood: ["good"] },
-  { name: "Wild Mushroom Pasta", note: "with thyme & pecorino", time: 35, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad"] },
-  { name: "Green Herb Noodles", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
-  { name: "Spiced Coconut Curry", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
-  { name: "Charred Peach Salad", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
+  { name: "Beef Phở", image: "/foods/pho.png", note: "with fresh herbs & lime", time: 40, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Roasted Tomato Soup", image: "/foods/tomato-soup.jpg", note: "with herb sourdough", time: 25, difficulty: "Easy", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Citrus Harvest Bowl", image: "/foods/citrus-bowl.jpg", note: "with toasted grains", time: 20, difficulty: "Easy", weather: ["sunny"], mood: ["good"] },
+  { name: "Wild Mushroom Pasta", image: "/foods/mushroom-pasta.jpg", note: "with thyme & pecorino", time: 35, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad"] },
+  { name: "Green Herb Noodles", image: "/foods/herb-noodles.jpg", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
+  { name: "Spiced Coconut Curry", image: "/foods/coconut-curry.jpg", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Charred Peach Salad", image: "/foods/peach-salad.jpg", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
 ];
 
 const getMockRecommendations = (weather, mood) =>
@@ -97,6 +95,18 @@ const getMockRecommendations = (weather, mood) =>
     .slice(0, 4);
 
 /* ---------- Components ---------- */
+function FoodImage({ src }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) {
+    return (
+      <div className="card__placeholder">
+        <Icon name="bowl" size={40} />
+      </div>
+    );
+  }
+  return <img src={src} alt="" className="card__img" onError={() => setFailed(true)} />;
+}
+
 function ChoiceButton({ option, active, onSelect }) {
   return (
     <button
@@ -127,7 +137,7 @@ function SkeletonCard({ index }) {
 }
 
 export default function App() {
-  // main states
+  // State chính
   const [weather, setWeather] = useState(null);
   const [mood, setMood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -145,7 +155,7 @@ export default function App() {
     setHasSearched(true);
 
     try {
-      await new Promise((r) => setTimeout(r, 900)); //time to wait for api
+      await new Promise((r) => setTimeout(r, 900)); // giả lập thời gian chờ API
       setFoodResults(getMockRecommendations(weather, mood));
     } catch (err) {
       console.error(err);
@@ -235,12 +245,7 @@ export default function App() {
                 foodResults.map((food, index) => (
                   <article key={food.id ?? food.name ?? index} className="card">
                     <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-                      <img
-                        src={food.image ?? "/seasonal-table.png"}
-                        alt=""
-                        className={food.image ? "card__img" : "card__img card__img--crop"}
-                        style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
-                      />
+                      <FoodImage src={food.image} />
                       {index === 0 && <span className="badge">Best match</span>}
                     </div>
                     <div className="card__body">
