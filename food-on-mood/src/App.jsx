@@ -2,7 +2,17 @@ import { useState } from "react";
 import "./App.css";
 import foodsData from "./foods.json";
 import foodImage from "./assets/vietnamese_do_and_dont.jpg"
+import heroImage from "./assets/hero.png";
 
+
+const images = import.meta.glob('./assets/*.{png,jpg,jpeg,webp,avif}', { eager: true, import: 'default' });
+
+// Helper function to find the right image based on the slug
+const getFoodImage = (slug) => {
+  // Look for a key ending in `/slug.extension`
+  const key = Object.keys(images).find((k) => k.includes(`/${slug}.`));
+  return key ? images[key] : null;
+};
 
 /* ---------- Icons ---------- */
 const ICON_PATHS = {
@@ -54,11 +64,11 @@ const ICON_PATHS = {
     </>
   ),
   clock: (
-  <>
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 7v5l3 2" />
-  </>
-),
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
 };
 
 function Icon({ name, size = 20 }) {
@@ -281,19 +291,19 @@ export default function App() {
           </div>
 
           <div className="hero__image">
-            <img 
-              src={foodImage} 
-              alt="A seasonal table of soup, grain bowl, pasta and herb noodles" 
+            <img
+              src={foodImage}
+              alt="A seasonal table of soup, grain bowl, pasta and herb noodles"
               className="hero__img-background"
             />
-            
+
             {/* Search Overlay Widget */}
             <div className="search-widget">
               <div className="search-widget__row">
                 <Icon name="search" size={18} />
-                <input 
-                  type="text" 
-                  placeholder="Search city · Lisbon" 
+                <input
+                  type="text"
+                  placeholder="Search city · Lisbon"
                   className="search-widget__input"
                 />
                 <button type="button" className="search-widget__btn">
@@ -306,7 +316,7 @@ export default function App() {
                 <span>Use my current location</span>
               </button>
             </div>
-            </div>
+          </div>
         </div>
       </section>
 
@@ -329,7 +339,7 @@ export default function App() {
                 foodResults.map((food, index) => (
                   <article key={food.id ?? food.name ?? index} className="card">
                     <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
-                      <FoodImage src={food.image} />
+                      <FoodImage src={getFoodImage(food.slug)} alt={food.name} />
                       {index === 0 && <span className="badge">Best match</span>}
                     </div>
                     <div className="card__body">
