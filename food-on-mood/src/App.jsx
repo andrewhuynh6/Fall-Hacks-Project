@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import foodImage from "./assets/vietnamese_do_and_dont.jpg";
+import foodsData from "./foods.json";
+
 
 /* ---------- Icons ---------- */
 const ICON_PATHS = {
@@ -83,55 +84,19 @@ const MOODS = [
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
 
-const IMAGE_POSITIONS = ["20% 13%", "66% 10%", "25% 88%", "75% 85%"];
-
+// Dữ liệu mẫu tạm thời (chưa nối backend). Sau này thay bằng fetch("/api/recommend").
 const MOCK_FOODS = [
-  { 
-    id: 1,
-    name: "Roasted Tomato Soup", 
-    note: "Rich and creamy soup paired with garlic herb sourdough toast.", 
-    weather: ["rainy", "snowy"], 
-    mood: ["bad", "good"] 
-  },
-  { 
-    id: 2,
-    name: "Citrus Harvest Bowl", 
-    note: "Fresh grapefruit, avocado, and toasted grains with citrus dressing.", 
-    weather: ["sunny"], 
-    mood: ["good"] 
-  },
-  { 
-    id: 3,
-    name: "Wild Mushroom Pasta", 
-    note: "Sautéed wild mushrooms tossed with fresh thyme and pecorino cheese.", 
-    weather: ["rainy", "snowy"], 
-    mood: ["bad"] 
-  },
-  { 
-    id: 4,
-    name: "Green Herb Noodles", 
-    note: "Chewy noodles tossed in fresh aromatic herbs and crispy chili oil.", 
-    weather: ["sunny", "rainy"], 
-    mood: ["good"] 
-  },
-  { 
-    id: 5,
-    name: "Spiced Coconut Curry", 
-    note: "Warm coconut broth infused with lemongrass, lime, and fresh coriander.", 
-    weather: ["rainy", "snowy"], 
-    mood: ["bad", "good"] 
-  },
-  { 
-    id: 6,
-    name: "Charred Peach Salad", 
-    note: "Grilled summer peaches served over creamy burrata and fresh basil.", 
-    weather: ["sunny"], 
-    mood: ["good", "bad"] 
-  },
+  { name: "Beef Phở", image: "/foods/pho.png", note: "with fresh herbs & lime", time: 40, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Roasted Tomato Soup", image: "/foods/tomato-soup.jpg", note: "with herb sourdough", time: 25, difficulty: "Easy", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Citrus Harvest Bowl", image: "/foods/citrus-bowl.jpg", note: "with toasted grains", time: 20, difficulty: "Easy", weather: ["sunny"], mood: ["good"] },
+  { name: "Wild Mushroom Pasta", image: "/foods/mushroom-pasta.jpg", note: "with thyme & pecorino", time: 35, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad"] },
+  { name: "Green Herb Noodles", image: "/foods/herb-noodles.jpg", note: "with chili crisp", time: 20, difficulty: "Easy", weather: ["sunny", "rainy"], mood: ["good"] },
+  { name: "Spiced Coconut Curry", image: "/foods/coconut-curry.jpg", note: "with lime & coriander", time: 30, difficulty: "Medium", weather: ["rainy", "snowy"], mood: ["bad", "good"] },
+  { name: "Charred Peach Salad", image: "/foods/peach-salad.jpg", note: "with basil & burrata", time: 15, difficulty: "Easy", weather: ["sunny"], mood: ["good", "bad"] },
 ];
 
 const getMockRecommendations = (weather, mood) =>
-  MOCK_FOODS.map((f) => ({
+  foodsData.map((f) => ({
     ...f,
     score: (f.weather.includes(weather) ? 1 : 0) + (f.mood.includes(mood) ? 1 : 0),
   }))
@@ -139,6 +104,18 @@ const getMockRecommendations = (weather, mood) =>
     .slice(0, 4);
 
 /* ---------- Components ---------- */
+function FoodImage({ src }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) {
+    return (
+      <div className="card__placeholder">
+        <Icon name="bowl" size={40} />
+      </div>
+    );
+  }
+  return <img src={src} alt="" className="card__img" onError={() => setFailed(true)} />;
+}
+
 function ChoiceButton({ option, active, onSelect }) {
   return (
     <button
@@ -214,6 +191,7 @@ function FoodCard({ food, index }) {
 }
 
 export default function App() {
+  // State chính
   const [weather, setWeather] = useState(null);
   const [mood, setMood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -231,7 +209,7 @@ export default function App() {
     setHasSearched(true);
 
     try {
-      await new Promise((r) => setTimeout(r, 900));
+      await new Promise((r) => setTimeout(r, 900)); // giả lập thời gian chờ API
       setFoodResults(getMockRecommendations(weather, mood));
     } catch (err) {
       console.error(err);
@@ -342,7 +320,28 @@ export default function App() {
 
               {!loading &&
                 foodResults.map((food, index) => (
-                  <FoodCard key={food.id ?? index} food={food} index={index} />
+                  <article key={food.id ?? food.name ?? index} className="card">
+                    <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
+                      <FoodImage src={`/foods/${food.slug}.png`} />
+                      {index === 0 && <span className="badge">Best match</span>}
+                    </div>
+                    <div className="card__body">
+                      <h3 className="card__name">{food.name}</h3>
+                      {(food.note ?? food.description) && (
+                        <p className="card__note">{food.note ?? food.description}</p>
+                      )}
+                      {(food.time || food.difficulty) && (
+                        <div className="card__meta">
+                          {food.time && (
+                            <span className="card__time">
+                              <Icon name="clock" size={14} /> {food.time} min
+                            </span>
+                          )}
+                          {food.difficulty && <span>{food.difficulty}</span>}
+                        </div>
+                      )}
+                    </div>
+                  </article>
                 ))}
             </div>
 

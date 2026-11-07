@@ -1,0 +1,1343 @@
+[
+    {
+      "name": "Phở Bò",
+      "slug": "pho",
+      "note": "Warm beef noodle soup, fresh herbs",
+      "time": 40,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Bún Chả",
+      "slug": "bun-cha",
+      "note": "Grilled pork with rice noodles",
+      "time": 35,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Bánh Mì",
+      "slug": "banh-mi",
+      "note": "Crisp baguette, pickles, pâté",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Gỏi Cuốn",
+      "slug": "goi-cuon",
+      "note": "Fresh rolls with peanut sauce",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Cơm Tấm",
+      "slug": "com-tam",
+      "note": "Broken rice with grilled pork",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Bún Bò Huế",
+      "slug": "bun-bo-hue",
+      "note": "Spicy lemongrass beef noodle soup",
+      "time": 60,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Chicken Curry",
+      "slug": "curry",
+      "note": "Coconut chicken curry with bread",
+      "time": 45,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Bánh Xèo",
+      "slug": "banh-xeo",
+      "note": "Crispy turmeric pancake",
+      "time": 35,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Mì Quảng",
+      "slug": "mi-quang",
+      "note": "Turmeric noodles, pork and shrimp",
+      "time": 40,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Chè Ba Màu",
+      "slug": "che-ba-mau",
+      "note": "Three-colour sweet dessert",
+      "time": 30,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Hủ Tiếu",
+      "slug": "hu-tieu",
+      "note": "Clear pork noodle soup",
+      "time": 35,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Bún Riêu",
+      "slug": "bun-rieu",
+      "note": "Tomato crab noodle soup",
+      "time": 50,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Bò Kho",
+      "slug": "bo-kho",
+      "note": "Star anise beef stew with bread",
+      "time": 90,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Tonkotsu Ramen",
+      "slug": "tonkotsu-ramen",
+      "note": "Rich pork broth, soft egg",
+      "time": 60,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Chirashi Bowl",
+      "slug": "chirashi-bowl",
+      "note": "Sushi rice with fresh fish",
+      "time": 25,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Udon Soup",
+      "slug": "udon-soup",
+      "note": "Thick noodles in light dashi",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Katsu Curry",
+      "slug": "katsu-curry",
+      "note": "Crispy cutlet, mild curry",
+      "time": 45,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Okonomiyaki",
+      "slug": "okonomiyaki",
+      "note": "Savoury cabbage pancake",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Onigiri",
+      "slug": "onigiri",
+      "note": "Rice balls, easy to carry",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Cold Soba",
+      "slug": "cold-soba",
+      "note": "Chilled buckwheat noodles",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Gyudon",
+      "slug": "gyudon",
+      "note": "Sweet soy beef over rice",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Kimchi Jjigae",
+      "slug": "kimchi-jjigae",
+      "note": "Spicy kimchi and pork stew",
+      "time": 35,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Bibimbap",
+      "slug": "bibimbap",
+      "note": "Rice bowl with veg and egg",
+      "time": 35,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Korean Fried Chicken",
+      "slug": "korean-fried-chicken",
+      "note": "Double-fried, sweet and spicy",
+      "time": 50,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Tteokbokki",
+      "slug": "tteokbokki",
+      "note": "Chewy rice cakes in spicy sauce",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Tom Yum",
+      "slug": "tom-yum",
+      "note": "Hot and sour shrimp soup",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Pad Thai",
+      "slug": "pad-thai",
+      "note": "Stir-fried noodles, tamarind",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Green Curry",
+      "slug": "green-curry",
+      "note": "Creamy coconut and basil",
+      "time": 40,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Mango Sticky Rice",
+      "slug": "mango-sticky-rice",
+      "note": "Sweet coconut rice with mango",
+      "time": 40,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Som Tam",
+      "slug": "som-tam",
+      "note": "Spicy green papaya salad",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Hot Pot",
+      "slug": "hot-pot",
+      "note": "Shared simmering broth",
+      "time": 45,
+      "difficulty": "Easy",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Congee",
+      "slug": "congee",
+      "note": "Silky rice porridge",
+      "time": 60,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Pork Dumplings",
+      "slug": "pork-dumplings",
+      "note": "Pan-fried, dipping sauce",
+      "time": 50,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Mapo Tofu",
+      "slug": "mapo-tofu",
+      "note": "Numbing and spicy tofu",
+      "time": 25,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Egg Fried Rice",
+      "slug": "egg-fried-rice",
+      "note": "Fast comfort in a wok",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Dan Dan Noodles",
+      "slug": "dan-dan-noodles",
+      "note": "Sesame and chilli noodles",
+      "time": 25,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Butter Chicken",
+      "slug": "butter-chicken",
+      "note": "Creamy tomato curry",
+      "time": 50,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Dal Tadka",
+      "slug": "dal-tadka",
+      "note": "Spiced lentils, garlic tempering",
+      "time": 35,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Chicken Biryani",
+      "slug": "chicken-biryani",
+      "note": "Fragrant layered rice",
+      "time": 80,
+      "difficulty": "Hard",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Palak Paneer",
+      "slug": "palak-paneer",
+      "note": "Spinach and cheese curry",
+      "time": 35,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Masala Dosa",
+      "slug": "masala-dosa",
+      "note": "Crisp crepe, potato filling",
+      "time": 45,
+      "difficulty": "Hard",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Chana Masala",
+      "slug": "chana-masala",
+      "note": "Chickpea curry",
+      "time": 30,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Margherita Pizza",
+      "slug": "margherita-pizza",
+      "note": "Tomato, mozzarella, basil",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Spaghetti Carbonara",
+      "slug": "spaghetti-carbonara",
+      "note": "Egg, pecorino, crispy pork",
+      "time": 25,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Lasagna",
+      "slug": "lasagna",
+      "note": "Layered meat and béchamel",
+      "time": 90,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Mushroom Risotto",
+      "slug": "mushroom-risotto",
+      "note": "Creamy and slow-stirred",
+      "time": 45,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Minestrone",
+      "slug": "minestrone",
+      "note": "Hearty vegetable soup",
+      "time": 40,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Caprese Salad",
+      "slug": "caprese-salad",
+      "note": "Tomato, mozzarella, basil",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Wild Mushroom Pasta",
+      "slug": "mushroom-pasta",
+      "note": "With thyme and pecorino",
+      "time": 35,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Pesto Pasta",
+      "slug": "pesto-pasta",
+      "note": "Fresh basil and pine nuts",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Potato Gnocchi",
+      "slug": "potato-gnocchi",
+      "note": "Pillowy, brown butter sage",
+      "time": 50,
+      "difficulty": "Hard",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Roasted Tomato Soup",
+      "slug": "tomato-soup",
+      "note": "With herb sourdough",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Charred Peach Salad",
+      "slug": "peach-salad",
+      "note": "With basil and burrata",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Greek Salad",
+      "slug": "greek-salad",
+      "note": "Feta, olives, cucumber",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Falafel Wrap",
+      "slug": "falafel-wrap",
+      "note": "Crisp chickpea fritters",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Shakshuka",
+      "slug": "shakshuka",
+      "note": "Eggs poached in spiced tomato",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Chicken Shawarma Bowl",
+      "slug": "chicken-shawarma",
+      "note": "Spiced chicken, garlic sauce",
+      "time": 40,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Lentil Soup",
+      "slug": "lentil-soup",
+      "note": "Warm red lentils, lemon",
+      "time": 30,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Street Tacos",
+      "slug": "street-tacos",
+      "note": "Corn tortillas, lime, onion",
+      "time": 30,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Burrito Bowl",
+      "slug": "burrito-bowl",
+      "note": "Rice, beans, grilled veg",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Cheese Quesadilla",
+      "slug": "cheese-quesadilla",
+      "note": "Melty and quick",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Ceviche",
+      "slug": "ceviche",
+      "note": "Fish cured in lime",
+      "time": 25,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Chili con Carne",
+      "slug": "chili-con-carne",
+      "note": "Slow, smoky bean stew",
+      "time": 75,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Tortilla Soup",
+      "slug": "tortilla-soup",
+      "note": "Tomato broth, crisp tortilla",
+      "time": 35,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Chicken Noodle Soup",
+      "slug": "chicken-noodle-soup",
+      "note": "The classic cold-day fix",
+      "time": 40,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Mac and Cheese",
+      "slug": "mac-and-cheese",
+      "note": "Baked, extra cheesy",
+      "time": 40,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Beef Stew",
+      "slug": "beef-stew",
+      "note": "Slow-cooked with root veg",
+      "time": 120,
+      "difficulty": "Medium",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Clam Chowder",
+      "slug": "clam-chowder",
+      "note": "Creamy, with crusty bread",
+      "time": 45,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Smash Burger",
+      "slug": "smash-burger",
+      "note": "Crisp edges, pickles",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Fish and Chips",
+      "slug": "fish-and-chips",
+      "note": "Battered fish, thick chips",
+      "time": 40,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Caesar Salad",
+      "slug": "caesar-salad",
+      "note": "Crunchy croutons, parmesan",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Grilled Cheese",
+      "slug": "grilled-cheese",
+      "note": "Golden and gooey",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Fluffy Pancakes",
+      "slug": "fluffy-pancakes",
+      "note": "With maple and berries",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Roast Chicken",
+      "slug": "roast-chicken",
+      "note": "Crispy skin, herb potatoes",
+      "time": 90,
+      "difficulty": "Medium",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Shepherd's Pie",
+      "slug": "shepherds-pie",
+      "note": "Lamb and mash, baked",
+      "time": 75,
+      "difficulty": "Medium",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "French Onion Soup",
+      "slug": "french-onion-soup",
+      "note": "Cheesy toast on top",
+      "time": 70,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Beef Bourguignon",
+      "slug": "beef-bourguignon",
+      "note": "Red wine braise",
+      "time": 150,
+      "difficulty": "Hard",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Poke Bowl",
+      "slug": "poke-bowl",
+      "note": "Raw fish, rice, avocado",
+      "time": 20,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Avocado Toast",
+      "slug": "avocado-toast",
+      "note": "Lemon, chilli, soft egg",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Smoothie Bowl",
+      "slug": "smoothie-bowl",
+      "note": "Frozen fruit and granola",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Grilled Salmon",
+      "slug": "grilled-salmon",
+      "note": "Lemon butter, greens",
+      "time": 25,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "BBQ Ribs",
+      "slug": "bbq-ribs",
+      "note": "Sticky, slow-cooked",
+      "time": 180,
+      "difficulty": "Hard",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Watermelon Feta Salad",
+      "slug": "watermelon-feta-salad",
+      "note": "Mint and lime",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Gazpacho",
+      "slug": "gazpacho",
+      "note": "Chilled tomato soup",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Mango Sorbet",
+      "slug": "mango-sorbet",
+      "note": "Cold and bright",
+      "time": 15,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Apple Pie",
+      "slug": "apple-pie",
+      "note": "Cinnamon and flaky crust",
+      "time": 90,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Chocolate Lava Cake",
+      "slug": "chocolate-lava-cake",
+      "note": "Molten centre",
+      "time": 30,
+      "difficulty": "Medium",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Banana Pudding",
+      "slug": "banana-pudding",
+      "note": "Creamy layered dessert",
+      "time": 30,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Ice Cream Sundae",
+      "slug": "ice-cream-sundae",
+      "note": "Toppings your way",
+      "time": 10,
+      "difficulty": "Easy",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good",
+        "bad"
+      ]
+    },
+    {
+      "name": "Pumpkin Soup",
+      "slug": "pumpkin-soup",
+      "note": "Silky, with toasted seeds",
+      "time": 40,
+      "difficulty": "Easy",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Baked Sweet Potato",
+      "slug": "baked-sweet-potato",
+      "note": "Butter and cinnamon",
+      "time": 60,
+      "difficulty": "Easy",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Paella",
+      "slug": "paella",
+      "note": "Saffron rice with seafood",
+      "time": 70,
+      "difficulty": "Hard",
+      "weather": [
+        "sunny"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Pierogi",
+      "slug": "pierogi",
+      "note": "Potato and cheese dumplings",
+      "time": 60,
+      "difficulty": "Medium",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Jollof Rice",
+      "slug": "jollof-rice",
+      "note": "Smoky tomato rice",
+      "time": 60,
+      "difficulty": "Medium",
+      "weather": [
+        "sunny",
+        "rainy"
+      ],
+      "mood": [
+        "good"
+      ]
+    },
+    {
+      "name": "Moussaka",
+      "slug": "moussaka",
+      "note": "Aubergine and lamb bake",
+      "time": 90,
+      "difficulty": "Hard",
+      "weather": [
+        "rainy",
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+      "name": "Borscht",
+      "slug": "borscht",
+      "note": "Beetroot soup, sour cream",
+      "time": 60,
+      "difficulty": "Medium",
+      "weather": [
+        "snowy"
+      ],
+      "mood": [
+        "bad"
+      ]
+    },
+    {
+        "name": "Korean BBQ",
+        "slug": "korean-bbq",
+        "note": "Grilled meat, lettuce wraps, banchan",
+        "time": 40,
+        "difficulty": "Medium",
+        "weather": [
+          "sunny",
+          "rainy"
+        ],
+        "mood": [
+          "good"
+        ]
+      }
+  ]
