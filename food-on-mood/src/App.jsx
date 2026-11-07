@@ -176,7 +176,7 @@ function FoodCard({ food, index }) {
     <article className="card">
       <div className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"}`}>
         <img
-          src={food.image ?? foodImage}
+          src={food.image ?? "./assets/vietnamese_do_and_dont.png"}
           alt={food.name}
           className={food.image ? "card__img" : "card__img card__img--crop"}
           style={food.image ? undefined : { objectPosition: IMAGE_POSITIONS[index % IMAGE_POSITIONS.length] }}
