@@ -1,5 +1,5 @@
 
-# 🍜 Food on Mood
+# Food on Mood
 
 **Eat for the moment.**
 
