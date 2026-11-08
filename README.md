@@ -77,7 +77,7 @@ Website: https://open-meteo.com/
 - @nalebao      aka NA DIEN aka rusher aka whyyyyy
 - @Dylansayhj   aka superstar
 - @Grass135     aka silent treatment
-- @andrewhuynh6 aka handsome
+- @andrewhuynh6 aka 
 
 ## License
 
