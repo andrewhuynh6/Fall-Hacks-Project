@@ -433,21 +433,18 @@ export default function App() {
       <section className="container hero">
         <div className="hero__grid">
           <div className="hero__copy">
-            <p className="eyebrow">
-              <Icon name="sparkle" size={16} /> Food that meets you where you
-              are
-            </p>
+
             <h1 className="title">
               Eat for the
               <br />
               <em>moment.</em>
             </h1>
             <p className="lead">
-              Pick the weather and your mood. We’ll find food that fits both.
+              Choose the weather and your current mood, then we will help you select the best dishes :)
             </p>
 
             <div className="group">
-              <h2 className="group__title">What’s the weather?</h2>
+              <h2 className="group__title">What’s the weather today?</h2>
               <div className="choices choices--3">
                 {WEATHERS.map((item) => (
                   <ChoiceButton
@@ -461,7 +458,7 @@ export default function App() {
             </div>
 
             <div className="group">
-              <h2 className="group__title">How are you feeling?</h2>
+              <h2 className="group__title">What's the vibe? :') </h2>
               <div className="choices choices--2">
                 {MOODS.map((item) => (
                   <ChoiceButton
@@ -639,7 +636,6 @@ export default function App() {
           <span className="logo__text">
             Food on <em>Mood</em>
           </span>
-          <p>A little inspiration, whatever the weather.</p>
         </div>
       </footer>
     </main>
