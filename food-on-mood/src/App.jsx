@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 import "./App.css";
 import foodsData from "./foods.json";
 import foodImage from "./assets/vietnamese_do_and_dont.jpg";
@@ -64,12 +65,6 @@ const ICON_PATHS = {
       <circle cx="12" cy="10" r="3" />
     </>
   ),
-  clock: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </>
-  ),
   cloud: <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />,
   droplet: (
     <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 15.1 5 17 5 15a7 7 0 0 0 7 7Z" />
@@ -103,6 +98,7 @@ const WEATHERS = [
   { id: "rainy", label: "Rainy", subtitle: "Grey & damp", icon: "rain" },
   { id: "snowy", label: "Snowy", subtitle: "Cold & quiet", icon: "snow" },
 ];
+
 const getWeatherCategory = (code) => {
   // Snow
   if ([71, 73, 75, 77, 85, 86].includes(code)) {
@@ -128,6 +124,7 @@ const MOODS = [
   { id: "good", label: "Good", subtitle: "Feeling bright", icon: "smile" },
   { id: "bad", label: "Bad", subtitle: "Need comfort", icon: "frown" },
 ];
+
 const getRecommendations = (weather, mood) => {
   // 1. Score and filter out non-matches
   const validMatches = foodsData
@@ -204,16 +201,87 @@ function SkeletonCard({ index }) {
   );
 }
 
-/* Dish Card component with local toggle state */
+/* Dish Card component with Google Places API */
 function FoodCard({ food, index }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
+  const [placesError, setPlacesError] = useState("");
+
+  const handleFindRestaurants = async () => {
+    const nextOpenState = !isOpen;
+    setIsOpen(nextOpenState);
+
+    if (nextOpenState && restaurants.length === 0 && !isLoadingPlaces) {
+      setIsLoadingPlaces(true);
+      setPlacesError("");
+
+      if (!navigator.geolocation) {
+        setPlacesError("Geolocation is not supported by your browser.");
+        setIsLoadingPlaces(false);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          try {
+            setOptions({
+              key: "AIzaSyDn1J7VWqclntfoED2oRrUGf3EVNkq_8LI", // Your Key
+              v: "weekly",
+            });
+
+            const { Place } = await importLibrary("places");
+
+            const request = {
+              textQuery: `${food.name} restaurant`,
+              fields: ["displayName", "formattedAddress", "location"],
+              locationBias: {
+                center: userLocation,
+                radius: 5000,
+              },
+              maxResultCount: 3,
+            };
+
+            const { places } = await Place.searchByText(request);
+
+            if (places && places.length > 0) {
+              const formatted = places.map((place) => ({
+                place_id: place.id,
+                name: place.displayName,
+                vicinity: place.formattedAddress,
+              }));
+              setRestaurants(formatted);
+            } else {
+              setRestaurants([]);
+            }
+
+            setIsLoadingPlaces(false);
+          } catch (error) {
+            console.error("Places Error:", error);
+            setPlacesError(`Google Error: ${error.message || "Unknown error"}`);
+            setIsLoadingPlaces(false);
+          }
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setPlacesError("Please allow location access to find restaurants.");
+          setIsLoadingPlaces(false);
+        },
+        { timeout: 10000 }
+      );
+    }
+  };
 
   return (
     <article className="card">
       <div
-        className={`card__media ${
-          index % 2 === 0 ? "card__media--tall" : "card__media--short"
-        }`}
+        className={`card__media ${index % 2 === 0 ? "card__media--tall" : "card__media--short"
+          }`}
       >
         <FoodImage src={getFoodImage(food.slug)} />
         {index === 0 && <span className="badge">Best match</span>}
@@ -225,22 +293,10 @@ function FoodCard({ food, index }) {
           <p className="card__note">{food.note ?? food.description}</p>
         )}
 
-        {/* Meta info (Time & Difficulty) */}
-        {(food.time || food.difficulty) && (
-          <div className="card__meta">
-            {food.time && (
-              <span className="card__time">
-                <Icon name="clock" size={14} /> {food.time} min
-              </span>
-            )}
-            {food.difficulty && <span>{food.difficulty}</span>}
-          </div>
-        )}
-
         {/* Dropdown Toggle Button */}
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleFindRestaurants}
           className="restaurant-btn"
         >
           <span>Find nearest restaurant</span>
@@ -254,10 +310,33 @@ function FoodCard({ food, index }) {
           </span>
         </button>
 
-        {/* Empty Dropdown Content */}
+        {/* Dropdown Content */}
         {isOpen && (
           <div className="restaurant-dropdown-content">
-            <p>No restaurants available yet.</p>
+            {isLoadingPlaces ? (
+              <p>Searching nearby...</p>
+            ) : placesError ? (
+              <p style={{ color: "var(--error)" }}>{placesError}</p>
+            ) : restaurants.length > 0 ? (
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left" }}>
+                {restaurants.map((place) => (
+                  <li
+                    key={place.place_id}
+                    style={{
+                      marginBottom: "10px",
+                      borderBottom: "1px solid #e5e5e5",
+                      paddingBottom: "6px",
+                    }}
+                  >
+                    <strong style={{ color: "#292524" }}>{place.name}</strong>
+                    <br />
+                    <small style={{ color: "#78716c" }}>{place.vicinity}</small>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No restaurants found nearby.</p>
+            )}
           </div>
         )}
       </div>
@@ -274,51 +353,42 @@ export default function App() {
   const [hasSearched, setHasSearched] = useState(false);
 
   // City search and API weather data
-  const [cityInput, setCityInput] = useState("Lisbon");
+  const [cityInput, setCityInput] = useState("");
   const [locationData, setLocationData] = useState(null);
   const [apiWeather, setApiWeather] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState("");
+
   // Search weather by city name
   const handleLocationSearch = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!cityInput.trim()) {
-    setLocationError("Please enter a city name.");
-    return;
-  }
+    if (!cityInput.trim()) {
+      setLocationError("Please enter a city name.");
+      return;
+    }
 
-  try {
-    setLocationLoading(true);
-    setLocationError("");
+    try {
+      setLocationLoading(true);
+      setLocationError("");
 
-    // Get city coordinates
-    const location = await resolveLocation(cityInput);
+      // Get city coordinates
+      const location = await resolveLocation(cityInput);
 
-    // Get weather using coordinates
-    const weatherData = await fetchWeather(
-      location.lat,
-      location.lon
-    );
+      // Get weather using coordinates
+      const weatherData = await fetchWeather(location.lat, location.lon);
 
-    setLocationData(location);
-    setApiWeather(weatherData);
-    setWeather(getWeatherCategory(weatherData.weathercode));
-    // Automatically select the closest weather button
-    const weatherCategory = getWeatherCategory(
-      weatherData.weathercode
-    );
-
-    setWeather(weatherCategory);
-
-  } catch (err) {
-    setLocationError(err.message);
-    setLocationData(null);
-    setApiWeather(null);
-  } finally {
-    setLocationLoading(false);
-  }
-};
+      setLocationData(location);
+      setApiWeather(weatherData);
+      setWeather(getWeatherCategory(weatherData.weathercode));
+    } catch (err) {
+      setLocationError(err.message);
+      setLocationData(null);
+      setApiWeather(null);
+    } finally {
+      setLocationLoading(false);
+    }
+  };
 
   const canSubmit = weather && mood && !loading;
 
@@ -335,7 +405,7 @@ export default function App() {
     } catch (err) {
       console.error(err);
       setError(
-        "We couldn't load your menu. Check your connection and try again.",
+        "We couldn't load your menu. Check your connection and try again."
       );
     } finally {
       setLoading(false);
@@ -434,7 +504,7 @@ export default function App() {
 
                 <input
                   type="text"
-                  placeholder="Search city · Lisbon"
+                  placeholder="Search city · Vancouver"
                   className="search-widget__input"
                   value={cityInput}
                   onChange={(e) => setCityInput(e.target.value)}
@@ -448,15 +518,6 @@ export default function App() {
                   {locationLoading ? "..." : "Go"}
                 </button>
               </form>
-
-              {/* Display search results */}
-              {locationData && apiWeather && (
-                <div className="location-weather">
-                  <p>{locationData.name}</p>
-                  <h3>{apiWeather.temperature}°C</h3>
-                  <p>Wind: {apiWeather.windspeed} km/h</p>
-                </div>
-              )}
 
               {locationError && <p className="error">{locationError}</p>}
 
@@ -474,7 +535,7 @@ export default function App() {
 
                     const weatherData = await fetchWeather(
                       location.lat,
-                      location.lon,
+                      location.lon
                     );
 
                     setApiWeather(weatherData);
@@ -491,6 +552,45 @@ export default function App() {
                 <span>Use my current location</span>
               </button>
             </div>
+
+            {/* Bottom Weather Display Widget */}
+            {locationData && apiWeather && (
+              <div className="weather-overlay">
+                <div className="weather-overlay__location">
+                  <Icon name="locationPin" size={14} />
+                  <span>{locationData.name || cityInput}</span>
+                </div>
+
+                <div className="weather-overlay__main">
+                  <Icon name="cloud" size={40} />
+                  <span className="weather-overlay__temp">
+                    {Math.round(apiWeather.temperature ?? apiWeather.temp ?? 18)}°
+                  </span>
+                </div>
+
+                <div className="weather-overlay__meta">
+                  <div className="weather-overlay__condition">
+                    {apiWeather.condition || "Partly cloudy"}
+                    {` · feels like ${Math.round(
+                      apiWeather.apparentTemperature ??
+                      apiWeather.feelsLike ??
+                      apiWeather.temperature ??
+                      17
+                    )}°`}
+                  </div>
+                  <div className="weather-overlay__stats">
+                    <span>
+                      <Icon name="droplet" size={14} />{" "}
+                      {apiWeather.humidity ?? 64}%
+                    </span>
+                    <span>
+                      <Icon name="wind" size={14} />{" "}
+                      {apiWeather.windspeed ?? apiWeather.windSpeed ?? 7} km/h
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
