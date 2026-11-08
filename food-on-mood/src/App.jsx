@@ -238,7 +238,7 @@ function FoodCard({ food, index }) {
             const { Place } = await importLibrary("places");
 
             const request = {
-              textQuery: `${food.name} restaurant`,
+              textQuery: `${food.name} near me`,
               fields: ["displayName", "formattedAddress", "location"],
               locationBias: {
                 center: userLocation,
