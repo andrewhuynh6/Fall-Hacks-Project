@@ -25,10 +25,10 @@ Food on Mood is a food recommendation web assitant that suggests dishes based on
 ## Screenshots
 
 ### Homepage
-![Food on Mood Homepage](screenshot/homepage.png)
+![Food on Mood Homepage](screenshot/homepage.jpg)
 
 ### Food Recommendations
-![Food Recommendations](screenshot/food-results.png)
+![Food Recommendations](screenshot/food-results.jpg)
 
 ## Getting Started
 
