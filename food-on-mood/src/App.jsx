@@ -482,7 +482,7 @@ export default function App() {
             >
               <span>{loading ? "Finding food…" : "Suggest food"}</span>
 
-              <span className="cta__sparkle">
+              <span className="cta__sparkle">q
                 <Icon name="sparkle" size={20} />
               </span>
             </button>
