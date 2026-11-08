@@ -1,6 +1,6 @@
 [
     {
-      "name": "Phở Bò",
+      "name": "Beef Pho",
       "slug": "pho",
       "note": "Warm beef noodle soup, fresh herbs",
       "time": 40,
@@ -15,9 +15,9 @@
       ]
     },
     {
-      "name": "Bún Chả",
+      "name": "Bun Cha",
       "slug": "bun-cha",
-      "note": "Grilled pork with rice noodles",
+      "note": "Grilled pork with rice noodles (vermicelli)",
       "time": 35,
       "difficulty": "Medium",
       "weather": [
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "name": "Bánh Mì",
+      "name": "Banh Mi",
       "slug": "banh-mi",
       "note": "Crisp baguette, pickles, pâté",
       "time": 15,
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "name": "Gỏi Cuốn",
+      "name": "Salad Roll (Summer roll)",
       "slug": "goi-cuon",
       "note": "Fresh rolls with peanut sauce",
       "time": 25,
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "name": "Cơm Tấm",
+      "name": "Rice platter with grilled meat",
       "slug": "com-tam",
       "note": "Broken rice with grilled pork",
       "time": 30,
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "name": "Bún Bò Huế",
+      "name": "Spicy Beef Soup",
       "slug": "bun-bo-hue",
       "note": "Spicy lemongrass beef noodle soup",
       "time": 60,
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "name": "Bánh Xèo",
+      "name": "Banh Xeo",
       "slug": "banh-xeo",
       "note": "Crispy turmeric pancake",
       "time": 35,
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "name": "Mì Quảng",
+      "name": "Mi Quang",
       "slug": "mi-quang",
       "note": "Turmeric noodles, pork and shrimp",
       "time": 40,
@@ -127,7 +127,7 @@
       ]
     },
     {
-      "name": "Chè Ba Màu",
+      "name": "3-colours Jelly Dessert",
       "slug": "che-ba-mau",
       "note": "Three-colour sweet dessert",
       "time": 30,
@@ -140,7 +140,7 @@
       ]
     },
     {
-      "name": "Hủ Tiếu",
+      "name": "Hu Tieu",
       "slug": "hu-tieu",
       "note": "Clear pork noodle soup",
       "time": 35,
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "name": "Bún Riêu",
+      "name": "Crab Vermicelli Soup",
       "slug": "bun-rieu",
       "note": "Tomato crab noodle soup",
       "time": 50,
@@ -168,7 +168,7 @@
       ]
     },
     {
-      "name": "Bò Kho",
+      "name": "Beef Stew",
       "slug": "bo-kho",
       "note": "Star anise beef stew with bread",
       "time": 90,
